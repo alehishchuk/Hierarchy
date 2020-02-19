@@ -1,0 +1,43 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="contact" type="Object" />
+    <aura:attribute name="typeObj" type="String" default="contact.FirstName" />
+    <aura:attribute name="currentRecordMap" type="list"/>
+    <aura:attribute name="picture" type="String"/>
+    <aura:attribute name="device" type="String"/>
+    <aura:attribute name="previousOffset" type="String"/>
+
+    <lightning:overlayLibrary aura:id="popuplib"/>
+
+    <lightning:recordEditForm aura:id="editForm">
+        <lightning:messages />
+        <div class="slds-grid slds-gutters slds-wrap" >
+            <aura:if isTrue="{!v.picture}">
+                <div class="slds-col slds-size--1-of-1 slds-small-size--2-of-5 wrapper-for-page" >
+                    <img src="{!v.picture}" class="fullPicture"/>
+                </div>
+            </aura:if>
+            <div class="slds-col slds-size--1-of-1 slds-small-size--3-of-5">
+                <aura:iteration items="{!v.currentRecordMap}" indexVar="key" var="prop">
+                    <div class="slds-grid slds-gutters_small">
+                        <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                            <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                                <div class = "slds-form-element slds-form-element_readonly slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                    <div class="slds-form-element__label">{!prop.label}</div>
+                                    <div class="slds-form-element__control break-all">
+                                        <aura:unescapedHtml value="{!prop.value}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+
+        <br/>
+        <div class="slds-align_absolute-center">
+            <lightning:button name="cancel" label="Cancel" onclick="{!c.handleCancel}"/>
+        </div>
+    </lightning:recordEditForm>
+</aura:component>

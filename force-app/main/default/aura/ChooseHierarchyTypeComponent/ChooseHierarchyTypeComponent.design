@@ -1,0 +1,12 @@
+<design:component>
+    <design:attribute name = "hierarchyName" />
+    <design:attribute name = "recordId" />
+    <design:attribute name = "relationFieldName" />
+    <design:attribute name = "sObjectName" />
+    <design:attribute name = "hierarchyType" />
+    <design:attribute name = "hierarchyNameSecond" />
+    <design:attribute name = "recordIdSecond" />
+    <design:attribute name = "relationFieldNameSecond" />
+    <design:attribute name = "sObjectNameSecond" />
+    <design:attribute name = "hierarchyTypeSecond" />
+</design:component>

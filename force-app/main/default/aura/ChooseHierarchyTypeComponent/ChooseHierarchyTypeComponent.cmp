@@ -1,0 +1,22 @@
+<aura:component access="GLOBAL" extensible="false" extends="c:HandlingEventsComponent" controller = "HierarchyComponentController">
+	<aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="sObjectName" type="String" access="global"/>
+    <aura:attribute name="hierarchyName" type="String" access="global"/>
+    <aura:attribute name = "relationFieldName" type="String" access="global"/>
+    <aura:attribute name = "hierarchyType" type="String" access="global"/>
+    <aura:attribute name="recordIdSecond" type="String" access="global"/>
+    <aura:attribute name="sObjectNameSecond" type="String" access="global"/>
+    <aura:attribute name="hierarchyNameSecond" type="String" access="global"/>
+    <aura:attribute name = "relationFieldNameSecond" type="String" access="global"/>
+    <aura:attribute name = "hierarchyTypeSecond" type="String" access="global"/>
+    <aura:attribute name="scrollable" type="String"/>
+    
+    <lightning:tabset>
+        <lightning:tab onactive="{! c.changeTab }" label="{!v.hierarchyType}" id="manager">
+            <c:Hierarchy recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" hierarchyName="{!v.hierarchyName}" relationFieldName="{!v.relationFieldName}"/>
+        </lightning:tab>
+        <lightning:tab onactive="{! c.changeTab }" label="{!v.hierarchyTypeSecond}" id="mentor">
+            <c:Hierarchy recordId="{!v.recordIdSecond}" sObjectName="{!v.sObjectNameSecond}" hierarchyName="{!v.hierarchyNameSecond}" relationFieldName="{!v.relationFieldNameSecond}"/>
+        </lightning:tab>        
+    </lightning:tabset>
+</aura:component>

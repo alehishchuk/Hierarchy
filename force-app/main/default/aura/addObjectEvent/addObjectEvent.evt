@@ -1,0 +1,7 @@
+<!--
+ - Created by tsvirkos on 6/14/2019.
+ -->
+
+<aura:event type="COMPONENT" description="addObjectEvent">
+    <aura:attribute name="addObjectBool" type="Boolean" description="Show/hide button"/>
+</aura:event>

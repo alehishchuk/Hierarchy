@@ -1,0 +1,53 @@
+<!--
+ - Created by ishchuko on 6/10/2019.
+ -->
+
+<aura:component description="HierarchyRelationshipComponent">
+    <aura:attribute name="targetObjectOld" type="Object" />
+    <aura:attribute name="objects" type="Object[]" description="Initial objects"/>
+    <aura:attribute name="objectsOriginal" type="Object[]" default="null" description="Initial objects"/>
+    <aura:attribute name="objectCount" type="Integer" default="0"/>
+    <aura:attribute name="chosenObject" type="String"/>
+    <aura:attribute name="targetObjects" type="Object[]" description="All related objects of parent object"/>
+    <aura:attribute name="targetObject" type="Object" description=""/>
+    <aura:attribute name="objectName" type="String" default="Order" />
+    <aura:attribute name="indexCheck"  type="Boolean" default = "true" description=""/>
+    <aura:attribute name="hideAllObjects" type="Boolean" default="false" description="Hide iteration with all objects"/>
+    <aura:attribute name="index" type="Integer" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:registerEvent name="targetObjectEvt" type="c:targetObjectEvent" />
+    <aura:registerEvent name="addObjectEvt" type="c:addObjectEvent" />
+    <aura:registerEvent name="extraLinesEvt" type="c:extraLinesEvent" />
+
+    <div class="slds-align_absolute-center slds-grid slds-gutters">
+        <div class="slds-size--5-of-12">
+        <aura:renderIf isTrue="{!v.indexCheck}">
+            <lightning:select name="object" label="Select an object:" aura:id="object" onchange="{!c.getParentObject}" >
+                <aura:iteration items="{!v.objects}" var="object">
+                    <option text="{!object.label}" value="{!object.name}" selected="{!object.selected}" />
+                </aura:iteration>
+            </lightning:select>
+            <aura:set attribute="else">
+                <lightning:select name="object" label="Select an object:"  aura:id="object" onchange="{!c.getParentObject}" >
+                    <option text="{!v.objectName}" value="" />
+                </lightning:select>
+            </aura:set>
+        </aura:renderIf>
+        </div>
+        <div class="slds-size--5-of-12" style="padding-left:10px">
+        <lightning:select name="relatedField" label="Select related field:" aura:id="relatedField" onchange="{!c.getTargetObject}" >
+            <option value="">-- None --</option>
+            <aura:iteration items="{!v.targetObjects}" var="object">
+                <option text="{!object.targetObject}" value="{!object.targetObject}" selected="{!object.selected}" />
+            </aura:iteration>
+        </lightning:select>
+        </div>
+        <div class="slds-size--2-of-12 slds-align_absolute-center" style="padding-left:10px; margin-top: 1.5rem;">
+        <aura:if isTrue="{!v.hideAllObjects}">
+            <lightning:button label="Add" title="Add object" onclick="{!c.addNewRowObject}"/>
+        </aura:if>
+        </div>
+    </div>
+</aura:component>

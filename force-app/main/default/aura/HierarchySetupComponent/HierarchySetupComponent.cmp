@@ -1,0 +1,79 @@
+<!--
+ - Created by ishchuko on 6/10/2019.
+ -->
+ 
+<aura:component description="HierarchySetupComponent" controller="HierarchySetupController" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:appHostable,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction" access="global">
+    <aura:attribute name="initialObjects" type="Object[]" description="Initial object" />
+    <aura:attribute name="initialObjectsOriginal" type="Object[]" description="Initial object" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="targetObject" type="Object[]"/>
+    <aura:handler name="targetObjectEvt" event="c:targetObjectEvent" action="{!c.getRelatedObject}"/>
+    <aura:handler name="addObjectEvt" event="c:addObjectEvent" action="{!c.addNewRowObject}"/>
+    <aura:handler name="extraLinesEvt" event="c:extraLinesEvent" action="{!c.delExtraLines}"/>
+    <aura:attribute name="mainSettingObject" type="String" />
+    <aura:attribute name="spinner" type="Boolean" default="true"/>
+    <aura:attribute name="showComponent" type="Boolean" default="true"/>
+    <aura:attribute name="chosenObject" type="String"/>
+    <aura:attribute name="relationAvailable" type="Boolean" default="false"/>
+    <aura:attribute name="targetObj" type="Object"/>
+    <aura:attribute name="settingName" type="String"/>
+    <aura:attribute name="objectCount" type="Integer" default="0"/>
+    <aura:attribute name="hideAllObjects" type="Boolean"/>
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="imageField" type="String" />
+    <aura:attribute name="fieldString" type="String" />
+    <aura:attribute name="targetObjectOld" type="Object" />
+    <aura:attribute name="objectsOriginalJson" type="String" />
+
+    <aura:renderIf isTrue="{!v.spinner}">
+        <div class="widthRelation" >
+            <div class="demo-only" style="height:60rem">
+                <div class="slds-spinner_container">
+                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:renderIf>
+    
+    <aura:renderIf isTrue="{!v.showComponent}">
+        <div class="slds-m-around--xx-large widthRelation">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate">#</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate slds-align_absolute-center" style="width:400px" title="Object relationship setting  ">Object relationship settings </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration items="{!v.targetObject}" var="obj" indexVar="index">
+                    <tr>
+                        <td>
+                            {!index + 1}
+                        </td>
+                        <td>
+                            <c:HierarchyRelationshipComponent objects="{#v.initialObjects}" objectsOriginal="{#v.initialObjectsOriginal}" objectCount="{!v.objectCount}" index="{!index + 1}" objectName = "{#v.targetObj}" targetObjectOld = "{!v.targetObjectOld}"/>
+                        </td>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+            <div class="slds-modal__footer" style="height:4rem">
+                <lightning:button variant="neutral" label="Cancel" onclick="{!c.cancelDialog}" />
+                <aura:renderIf isTrue="{!v.relationAvailable}">
+                    <lightning:button variant="brand" label="Next" title="Next" onclick="{!c.showFieldsComponent}"/>
+                </aura:renderIf>
+            </div>
+        </div>
+    </aura:renderIf> 
+    <aura:if isTrue="{! !v.showComponent}"> 
+        <c:ObjectFieldsComponent objectsOriginal="{#v.initialObjectsOriginal}" objectName = "{!v.chosenObject}" targetObject="{!v.targetObject}" fieldString="{!v.fieldString}" imageField="{!v.imageField}" recordId="{!v.recordId}" settingName="{!v.settingName}"  />
+    </aura:if>
+</aura:component>

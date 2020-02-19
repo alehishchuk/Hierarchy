@@ -1,0 +1,64 @@
+<aura:component controller="HierarchySetupController">
+    <aura:attribute name="targetObject" type="Object[]"/>
+    <aura:attribute name="objectName" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+    <aura:attribute name="showSubmit" type="Boolean" default="false"/>
+    <aura:attribute name="showFieldPicklist" type="Boolean" default="false"/>
+    <aura:attribute name="fieldSet" type="String[]"/>
+    <aura:attribute name="settingName" type="String" default=""/>
+    <aura:attribute name="fieldString" type="String" />
+    <aura:attribute name="imageField" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="values" type="List" default="[]"/>
+    <aura:attribute name="options" type="List" />
+    <aura:attribute name="imageFieldList" type="List" />
+    <aura:attribute name="relatedImageFieldList" type="List" />
+    <aura:attribute name="objects" type="Object[]" description="Initial objects"/>
+    <aura:attribute name="fieldTypeMap" type="Object" />
+    <aura:attribute name="objectsOriginal" type="Object[]" default="null" description="Initial objects"/>
+
+    <div class="wrap">
+        <div class="slds-align_absolute-center" >
+            <div class="slds-grid slds-gutters" style="position: relative;">
+                <div class="slds-col slds-size_5-of-8" >
+                    <lightning:layout >
+                        <lightning:layoutItem flexibility="auto" padding="around-small" >
+                            <lightning:dualListbox name="fields"
+                                                   label= "Select Fields"
+                                                   sourceLabel="Available"
+                                                   selectedLabel="Selected"
+                                                   fieldLevelHelp="This is a dual listbox"
+                                                   options="{!v.options}"
+                                                   value="{!v.values}"
+                                                   onchange="{! c.handleChange }">
+                            </lightning:dualListbox>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+                <div class="slds-col slds-size_3-of-8 slds-p-top_x-large">
+                    <ui:inputText aura:id="fstname" value="{!v.settingName}" label="Hierarchy setting name" class="slds-input" labelClass="slds-form-element__label" required="true"/>
+                    <br/>
+
+                    <lightning:select name="firstObject" label="Select image field or reference to an object:" aura:id="firstObject" onchange="{!c.getParentObject}" >
+                        <aura:iteration items="{!v.imageFieldList}" var="object">
+                            <option text="{!object.label}" value="{!object.value}" selected="{!object.selected}" />
+                        </aura:iteration>
+                    </lightning:select>
+
+                    <aura:if isTrue="{!v.showFieldPicklist}">
+                        <lightning:select name="secondObject" label="Select image" aura:id="secondObject" onchange="{!c.getSecondParentObject}" >
+                            <aura:iteration items="{!v.relatedImageFieldList}" var="object">
+                                <option text="{!object.label}" value="{!object.value}" selected="{!object.selected}" />
+                            </aura:iteration>
+                        </lightning:select>
+                    </aura:if>
+
+                    <div style="float: right;margin-top: 100px;" >
+                        <lightning:button  variant="neutral" label="Cancel" onclick="{!c.cancelDialog}" />
+                        <lightning:button  variant="brand" label="Submit" title="Submit" onclick="{!c.addHierarchy }" disabled="{! !v.showSubmit}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
